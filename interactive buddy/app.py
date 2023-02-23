@@ -40,6 +40,11 @@ while running:
         # Update character position with gravity
         char_pos[0] += char_vel[0]
         char_pos[1] += char_vel[1]
+        
+    # Check if character hits top of the screen
+    if char_pos[1] < 0:
+        char_vel[1] = 0
+        char_pos[1] = 0
 
     # Check if character hits bottom of the screen
     if char_pos[1] + char_rect.height > screen.get_height():
