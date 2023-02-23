@@ -24,20 +24,15 @@ while running:
             # Start dragging if mouse is over the character
             if char_rect.collidepoint(event.pos):
                 dragging = True
-                pre_x = event.pos[0]
-                pre_y = event.pos[1]
+                pre_x = event.pos[0] - char_rect.x
+                pre_y = event.pos[1] - char_rect.y
         elif event.type == pygame.MOUSEBUTTONUP:
             dragging = False
 
     # Update character's position and velocity
     if dragging:
-        #char_pos = list(event.pos)
         x, y = pygame.mouse.get_pos()
-        print(x, y)
-
-        char_pos = [char_pos[0] + event.pos[0] - pre_x, char_pos[1] + event.pos[1] - pre_y]
-        char_vel = [0, 0]
-        print(event.pos)
+        char_pos = [x - pre_x, y - pre_y]
 
     # Update character rect
     char_rect.x = char_pos[0]
