@@ -11,6 +11,8 @@ char_rect = char_image.get_rect()
 
 # Create a character object with initial position, velocity, and acceleration
 char_pos = [100, 100]
+char_vel = [0, 0]
+gravity = 0.1
 dragging = False
 
 # Game loop
@@ -24,22 +26,32 @@ while running:
             # Start dragging if mouse is over the character
             if char_rect.collidepoint(event.pos):
                 dragging = True
-                pre_x = event.pos[0] - char_rect.x
-                pre_y = event.pos[1] - char_rect.y
+                pre_x = event.pos[0] - char_pos[0]
+                pre_y = event.pos[1] - char_pos[1]
         elif event.type == pygame.MOUSEBUTTONUP:
             dragging = False
 
     # Update character's position and velocity
+    char_vel[1] += gravity
     if dragging:
-        x, y = pygame.mouse.get_pos()
-        char_pos = [x - pre_x, y - pre_y]
+        # Update character position while dragging
+        char_pos = [event.pos[0] - pre_x, event.pos[1] - pre_y]
+    else:
+        # Update character position with gravity
+        char_pos[0] += char_vel[0]
+        char_pos[1] += char_vel[1]
+
+    # Check if character hits bottom of the screen
+    if char_pos[1] + char_rect.height > screen.get_height():
+        char_vel[1] = 0
+        char_pos[1] = screen.get_height() - char_rect.height
 
     # Update character rect
     char_rect.x = char_pos[0]
     char_rect.y = char_pos[1]
 
     # Clear screen
-    screen.fill((255, 255, 255))
+    screen.fill((192, 192, 192))
 
     # Render character
     screen.blit(char_image, char_rect)
