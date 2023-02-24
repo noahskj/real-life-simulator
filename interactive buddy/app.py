@@ -15,6 +15,14 @@ char_vel = [0, 0]
 gravity = 0.1
 dragging = False
 
+# Set up font and text
+font = pygame.font.SysFont("Arial", 30)
+text = font.render("Use the mouse to drag", True, (0, 0, 0))
+text_rect = text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+
+# Set timer for text to disappear after 3 seconds
+text_timer = 3 * 60  
+
 # Game loop
 running = True
 while running:
@@ -60,6 +68,11 @@ while running:
 
     # Render character
     screen.blit(char_image, char_rect)
+
+    # Render text if timer hasn't expired
+    if text_timer > 0:
+        screen.blit(text, text_rect)
+        text_timer -= 1
 
     # Update display
     pygame.display.update()
